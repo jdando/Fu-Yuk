@@ -1,0 +1,23 @@
+TELLTALE FLOW VISUALIZATION TEST DATA
+
+Image: telltale_test_66mph.jpg
+Test Speed: 66 mph
+Viewing Orientation: Rotate CCW 90° for proper perspective
+
+Test Setup:
+- Blue tape markers: Reference points for measurements
+- White yarn/string telltales: Show airflow direction and attachment
+- Digital gauge visible showing "19" (likely gear indicator or other metric)
+- Handlebars and mounting hardware visible
+- Fork/triple clamp area with metal brackets
+
+Flow Observations (rotated view):
+- Telltales showing laminar flow patterns around bars
+- Blue tape positioned at key measurement points
+- Classic aerodynamic testing methodology
+
+Related to:
+- 7"W × 9"H windscreen current configuration
+- 15-20° rearward rake
+- Bubble projection analysis (13-14" calm zone, rider at 18")
+- Slotted extension design development

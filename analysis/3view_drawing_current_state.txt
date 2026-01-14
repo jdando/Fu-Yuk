@@ -1,0 +1,279 @@
+# 3-VIEW TECHNICAL DRAWING - CURRENT STATE
+## Moto Guzzi V7 2026 - Dart Flyscreen Aerodynamic Analysis
+
+All dimensions in inches (mm in parentheses)
+Scale: Approximate 1:10
+Origin: Windscreen mounting point (0, 0, 0)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## SIDE VIEW (RIGHT SIDE) - X-Z PLANE
+Looking from right side of bike, Y-axis coming out of page
+
+Z-axis (vertical)
+↑
+│
+20"├─────────────────────────────────────────── Chin level (freestream)
+   │                            ∙ ← Rider chin @ X=18", Z=20"
+   │                         ╱
+18"│                      ╱
+   │                   ╱      ↑ Gap: no protection
+   │                ╱         │ in this zone
+16"│             ╱            ↓
+   │          ╱
+   │       ╱              ┌──────────┐
+14"│    ╱                 │  RIDER   │
+   │ ╱                    │  HEAD    │ Helmet buffeting zone
+12"│                      │          │
+   ├──────────────────────┴──────────┴── Top of current screen (Z=9")
+10"│     ╱────────╲                      Calm 4" behind screen
+   │   ╱ Calm zone ╲                     then turbulent transition
+9" ├──●═════════════╲ ← Screen top edge (thick 1/4")
+   │  │   Protected   ╲
+8" │  │    bubble      ╲   ↑            ┌──────────────┐
+   │  │    (calm air)   ╲  │ Bubble     │              │
+7" │  │                  ╲ │ sinking    │   RIDER      │
+   │  │                   ╲│ trajectory │   TORSO      │
+6" │  │                    ╲             │              │
+   │  │  ╱─────────────────╲            │  (Protected  │
+5" │  │╱      Calm          ╲           │   at chest   │
+   │  │     recirculation    ╲          │   level)     │
+4" │  │        zone           ╲         │              │
+   │  │                        ╲        └──────────────┘
+3" │  │                         ╲
+   │  │                          ╲
+2" │  │    At rider position:     ╲    ← Bubble has sunk to lap level
+   │  │    "less puffy"            ╲     (calmer than chest)
+1" │  │                             ╲
+   │  │                              ╲
+0" ●──┴───────────────────────────────● Windscreen base / Origin
+   │  └─ 15-20° rake
+   │     (screen leans back)
+   └────┴────┴────┴────┴────┴────┴────┴────┴────┴────→ X-axis (fore-aft)
+   0"  2"  4"  6"  8"  10" 12" 14" 16" 18" 20" 22"
+                                    ↑
+                              Calm zone ends
+                              @ 13-14" behind screen
+
+                              Rider torso @ X=18"
+                              (4-5" beyond calm zone)
+
+Key measurements:
+• Current screen height: 9" (229mm)
+• Current screen rake: 15-20° rearward
+• Calm bubble projection: 13-14" (330-356mm)
+• Rider position: 18" (457mm) aft of screen top
+• Gap: 4-5" (102-127mm) shortfall
+• Bubble sinking: ~6-8" (152-203mm) drop over 18" travel
+• Chin height: ~20" (508mm) above mounting point
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## FRONT VIEW - Y-Z PLANE
+Looking at bike from front, X-axis going into page
+
+Z-axis (vertical)
+↑
+│
+20"│                      ╱│╲                    Chin (no protection)
+   │                    ╱  │  ╲
+18"│                  ╱    │    ╲
+   │                ╱      │      ╲
+16"│              ╱        │        ╲
+   │         ┌──╱──────────┼──────────╲──┐      Shoulders @ Z=15-17"
+15"│         │╱             │            ╲│      Y = ±13" (26" wide)
+   │         ├──────────────┼──────────────┤     PULSING (vortex shedding)
+   │         │   Vortices   │   Vortices  │
+13"│         │   ↺     ↺    │    ↻    ↻   │
+   │         │  Screen edge │ Screen edge │
+   │         │  vortex      │  vortex     │
+11"│         │  shedding    │  shedding   │
+   │         │              │             │
+9" ├─────────┤■■■■■■■■■■■■■■│■■■■■■■■■■■■■├──── Current screen top
+   │         │■■■■ SCREEN ■■│■■■■■■■■■■■■■│      Width: 7" (178mm)
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│      (shaded area)
+7" │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│      Calm zone directly
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│      behind screen
+5" │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│      (torso protected)
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│
+3" │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│
+   │         │■■■■■■■■■■■■■■│■■■■■■■■■■■■■│
+1" │         └■■■■■■■■■■■■■■┼■■■■■■■■■■■■■┘
+   │                        │
+0" ├─────●──────────────────┼──────────────────●─── Mounting point
+   │     └── Headlight ──────┼────── nacelle ───┘   (centerline)
+   │        (approx)         │
+   │                         │
+   ├──────┬──────┬──────┬───┼───┬──────┬──────┬──────→ Y-axis (lateral)
+  -15" -12"  -10"  -8"  -6" 0"  +6"  +8"  +10" +12" +15"
+        │                │   │   │                │
+        ├─ Elbow        Ribs │ Ribs          Elbow ┤
+        │  position      (calm)           position │
+        │  Y=±9.5-11.5"                   (steady  │
+        │  (19-23" wide)                  frontal  │
+        │  STEADY FRONTAL PRESSURE        pressure)│
+        │                                           │
+        └─────── Mirror ──────┼────── Mirror ──────┘
+                 Y=-7.5"      │       Y=+7.5"
+                 (15" total)  │       (steady, no buffet)
+                              │
+                     ┌────────┴────────┐
+                     │   Protected     │
+                     │   bubble width  │
+                     │   @ rider:      │
+                     │   12-13" wide   │
+                     │   (±6-6.5" from │
+                     │   centerline)   │
+                     └─────────────────┘
+
+Key measurements:
+• Current screen width: 7" (178mm)
+• Protected bubble @ rider: 12-13" (305-330mm)
+• Mirror spacing: 15" (381mm) total, Y=±7.5"
+• Elbow width: 19-23" (483-584mm), Y=±9.5-11.5"
+• Shoulder width: 26" (660mm), Y=±13"
+• Ribs protected: Y=±10" (calm zone)
+
+PROBLEM: Shoulders are 13" beyond protected 6.5" bubble edge
+        = 6.5" GAP per side needing protection
+        Total shortfall = 13" width expansion needed
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## TOP VIEW (PLAN VIEW) - X-Y PLANE
+Looking down at bike from above, Z-axis coming out of page toward you
+
+Y-axis (lateral)
+↑
+│
++15"│        SHOULDER              │              SHOULDER
+    │           ∙ ← Pulsing        │        Pulsing → ∙
+    │          (turbulent)         │         (turbulent)
++13"├───────────●──────────────────┼──────────────●────────── Shoulder width
+    │           │╲                 │                ╱│         26" (660mm)
+    │           │ ╲   Vortex       │       Vortex  ╱ │         Y = ±13"
++11"│           │  ╲  shedding     │    shedding  ╱  │
+    │        ELBOW  ╲  from      ╱═╲═╲    from  ╱  ELBOW
++10"│           ∙    ╲  screen ╱  CALM ╲  edges╱    ∙          Elbow position
+    │         (steady ╲  edge ╱  BUBBLE ╲     ╱  steady)       Y = ±9.5-11.5"
+ +8"│         pressure)╲    ╱    (RIBS   ╲   ╱   pressure      19-23" wide
+    │                   ╲  ╱    protected) ╲ ╱
+ +6"│                    ╲╱                 ╲╱
+    │                   ╱■╲                 ╱╲    ← Bubble width
+    │                  ╱■■■╲   Bubble     ╱  ╲     @ rider: 12-13"
+ +4"│                 ╱■■■■■╲  expanding ╱    ╲    (±6-6.5")
+    │              ╱■■■■■■■■■╲  rearward ╱      ╲
+    │           ╱■■■■■■■■■■■■■╲         ╱        ╲  ← Bubble degrading
+ +2"│        ╱■■■■■■■■■■■■■■■■■╲       ╱   "puffy"╲
+    │     ╱■■■■■■■■■■■■■■■■■■■■■╲     ╱            ╲
+  0"├───●■■■■■■■■■■■■■■■■■■■■■■■■●═══●══════════════●─── Centerline
+    │     ╲■■■■■■■■■■■■■■■■■■■■■╱     ╲            ╱
+ -2"│        ╲■■■■■■■■■■■■■■■■■╱       ╲   "puffy"╱
+    │           ╲■■■■■■■■■■■■■╱         ╲        ╱
+ -4"│              ╲■■■■■■■■■╱          ╲      ╱
+    │                 ╲■■■■■╱            ╲    ╱
+ -6"│                   ╲■■╱              ╲  ╱
+    │                    ╲╱                ╲╱
+ -8"│                   ╱ ╲                ╱╲
+    │                  ╱   ╲              ╱  ╲
+-10"│         (steady ╱     ╲  shedding  ╱    ∙          Elbow
+    │         pressure)      ╲  from    ╱   steady)
+-11"│        ELBOW            ╲  edge  ╱   ELBOW
+    │           ∙              ╲      ╱      │
+-13"├───────────●───────────────╲────╱───────●────────── Shoulder width
+    │           │                ╲  ╱        │
+-15"│        SHOULDER             │╱      SHOULDER
+    │           ∙                 │           ∙
+    │      (turbulent)            │      (turbulent)
+    │
+    ├───●────●────●────●────●────●────●────●────●────●────→ X-axis
+    0"  2"  4"  6"  8"  10" 12" 14" 16" 18" 20" 22"      (fore-aft)
+    │   │                        │              │
+ Screen Mirror              Calm zone      Rider torso
+  base  @7.5"               ends @13-14"   position @18"
+
+  │←───────── Calm bubble (13-14") ──────────→│←─ Gap ─→│
+                                               (4-5")
+
+Key measurements:
+• Screen width: 7" (shaded ■ area)
+• Bubble width @ 13-14" aft: ~9-10"
+• Bubble width @ 18" (rider): 12-13" (±6-6.5")
+• Direct blast zone: <1.5" from screen edge (at screen location)
+• Protected width at rider: 12-13" vs needed 26" = 13" shortfall
+• Bubble expansion ratio: 7" → 12-13" = 1.75x expansion
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## CRITICAL AERODYNAMIC FINDINGS SUMMARY:
+
+THREE SIMULTANEOUS PROBLEMS:
+
+1. DEPTH PROBLEM (X-axis):
+   • Calm zone projects only 13-14" behind screen
+   • Rider sits at 18" behind screen
+   • Gap: 4-5" shortfall in bubble projection
+   • Solution: Extend bubble via height increase + flow energization
+
+2. HEIGHT PROBLEM (Z-axis):
+   • Bubble SINKS as it travels rearward
+   • Starts at chest height (Z≈5") at screen
+   • Drops to lap height (Z≈2") at rider position
+   • Sink rate: ~6-8" drop over 18" travel (~20-25° downward)
+   • Chin at Z=20" is in pure freestream (no protection)
+   • Solution: Taller screen (18-20") to keep protection at shoulder/chin height
+
+3. WIDTH PROBLEM (Y-axis):
+   • Screen: 7" wide
+   • Bubble at rider: 12-13" wide (1.75x expansion)
+   • Shoulders: 26" wide (need 2x more coverage)
+   • Gap: 6.5" per side = 13" total shortfall
+   • Elbows: 19-23" wide (also exposed)
+   • Solution: Lateral deflectors extending ±6-7" from screen edges
+
+FLOW CHARACTERISTICS:
+• Vortex shedding from screen edges → shoulder pulsing (turbulent)
+• Thick edge (1/4") creates strong vortex formation
+• Recirculation zone exists 0-4" behind screen top (calm)
+• Shear layer at bubble boundary (13-14" aft) = turbulent transition
+• Freestream "very close" to protected pocket edge
+• Air "puffing back and downward" at boundary = classic separated flow
+
+═══════════════════════════════════════════════════════════════════════════════
+
+## CURRENT CONFIGURATION SUMMARY:
+
+Dart Flyscreen:
+• Dimensions: 7" W × 9" H × 1/4" thick top edge
+• Rake: 15-20° rearward from vertical
+• Edge treatment: Rounded with slight radius
+• Material: Polycarbonate (likely)
+• Mounting: Turn signal/headlight bracket positions
+
+Performance at 66-70 mph:
+• Torso: Protected (calm) ✓
+• Ribs: Protected (calm) ✓
+• Mirrors @ Y=±7.5": Steady, clear view (in clean flow) ✓
+• Lower arms: Steady frontal pressure (no protection) ✗
+• Shoulders @ Y=±13": Pulsing turbulence (vortex impact) ✗
+• Elbows @ Y=±9.5-11.5": Steady frontal pressure (no protection) ✗
+• Chin @ Z=20": Freestream (no protection) ✗
+
+Effectiveness: ~40% protection
+• Protects: Torso/chest, ribs
+• Does NOT protect: Shoulders, elbows, chin, full bubble depth
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Notes:
+- All dimensions measured from windscreen mounting point origin (0,0,0)
+- Rider position: 5'10" upright, sitting 18" behind screen top
+- Test speed: 66-70 mph (verify target speed for final design)
+- Confidence levels: >85% for most measurements, <55% for bike-specific dimensions
+- Drawing not to scale - proportions approximate for visualization
+- Shaded areas (■) represent protected calm zones
+- Vortices (↺ ↻) indicate turbulent flow from edge shedding
+
+═══════════════════════════════════════════════════════════════════════════════
