@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moto Guzzi V7 Windscreen Parametric Designer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+
+        .views-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .view-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .view-title {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            display: block;
+        }
+
+        .controls-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .control-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+        }
+
+        .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .control-value {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: none;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4fffb0;
+        }
+
+        .reset-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .reset-button:active {
+            transform: translateY(0);
+        }
+
+        .warning-box {
+            background: rgba(255, 165, 0, 0.2);
+            border: 2px solid rgba(255, 165, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .warning-box.active {
+            display: block;
+        }
+
+        .warning-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffb347;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏍️ Moto Guzzi V7 Windscreen Designer</h1>
+        <div class="subtitle">Interactive Parametric Visualizer - Option 1: Expanding Taper Design</div>
+
+        <div class="views-container">
+            <div class="view-box">
+                <div class="view-title">📐 Side View (Right)</div>
+                <canvas id="sideCanvas" width="500" height="600"></canvas>
+            </div>
+
+            <div class="view-box">
+                <div class="view-title">📐 Front View</div>
+                <canvas id="frontCanvas" width="500" height="600"></canvas>
+            </div>
+
+            <div class="view-box">
+                <div class="view-title">📐 Top View (Plan)</div>
+                <canvas id="topCanvas" width="500" height="600"></canvas>
+            </div>
+        </div>
+
+        <div class="controls-container">
+            <div class="control-section">
+                <div class="section-title">🎯 Primary Dimensions</div>
+                <div class="control-group">
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Screen Height</span>
+                            <span class="control-value" id="heightValue">20.0"</span>
+                        </div>
+                        <input type="range" id="heightSlider" min="15" max="24" step="0.5" value="20">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Base Width (Fixed to Mounts)</span>
+                            <span class="control-value" id="baseWidthValue">10.0"</span>
+                        </div>
+                        <input type="range" id="baseWidthSlider" min="8" max="12" step="0.5" value="10" disabled style="opacity: 0.5;">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Top Width</span>
+                            <span class="control-value" id="topWidthValue">16.0"</span>
+                        </div>
+                        <input type="range" id="topWidthSlider" min="10" max="20" step="0.5" value="16">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Rake Angle</span>
+                            <span class="control-value" id="rakeValue">15°</span>
+                        </div>
+                        <input type="range" id="rakeSlider" min="0" max="30" step="1" value="15">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="section-title">📊 Deflection Curve</div>
+                <div class="control-group">
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Base Deflection Angle</span>
+                            <span class="control-value" id="baseDeflectionValue">5°</span>
+                        </div>
+                        <input type="range" id="baseDeflectionSlider" min="0" max="15" step="1" value="5">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Top Deflection Angle</span>
+                            <span class="control-value" id="topDeflectionValue">20°</span>
+                        </div>
+                        <input type="range" id="topDeflectionSlider" min="10" max="35" step="1" value="20">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Curve Progression (t^n)</span>
+                            <span class="control-value" id="curveProgressionValue">1.5</span>
+                        </div>
+                        <input type="range" id="curveProgressionSlider" min="1.0" max="2.5" step="0.1" value="1.5">
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-label">
+                            <span>Screen Transparency</span>
+                            <span class="control-value" id="transparencyValue">40%</span>
+                        </div>
+                        <input type="range" id="transparencySlider" min="20" max="80" step="5" value="40">
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-label">Total Height</div>
+                    <div class="stat-value" id="totalHeight">20.0"</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Width Expansion</div>
+                    <div class="stat-value" id="widthExpansion">+6.0"</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Taper Ratio</div>
+                    <div class="stat-value" id="taperRatio">1.60x</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Avg Deflection</div>
+                    <div class="stat-value" id="avgDeflection">12.5°</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Surface Area</div>
+                    <div class="stat-value" id="surfaceArea">260 in²</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Material Cost Est.</div>
+                    <div class="stat-value" id="materialCost">$35</div>
+                </div>
+            </div>
+
+            <div class="warning-box" id="warningBox">
+                <div class="warning-title">⚠️ Design Warnings:</div>
+                <div id="warningText"></div>
+            </div>
+
+            <button class="reset-button" onclick="resetToDefaults()">🔄 Reset to Recommended Defaults</button>
+        </div>
+    </div>
+
+    <script>
+        // Default parameters (Option 1: Expanding Taper)
+        const defaults = {
+            height: 20.0,
+            baseWidth: 10.0,
+            topWidth: 16.0,
+            rake: 15,
+            baseDeflection: 5,
+            topDeflection: 20,
+            curveProgression: 1.5,
+            transparency: 40
+        };
+
+        // Current parameters
+        let params = { ...defaults };
+
+        // Canvas contexts
+        const sideCtx = document.getElementById('sideCanvas').getContext('2d');
+        const frontCtx = document.getElementById('frontCanvas').getContext('2d');
+        const topCtx = document.getElementById('topCanvas').getContext('2d');
+
+        // Scale factor for drawing (pixels per inch)
+        const scale = 20;
+
+        // Initialize
+        function init() {
+            setupEventListeners();
+            updateAllViews();
+        }
+
+        function setupEventListeners() {
+            // Height slider
+            document.getElementById('heightSlider').addEventListener('input', (e) => {
+                params.height = parseFloat(e.target.value);
+                document.getElementById('heightValue').textContent = params.height.toFixed(1) + '"';
+                updateAllViews();
+            });
+
+            // Top width slider
+            document.getElementById('topWidthSlider').addEventListener('input', (e) => {
+                params.topWidth = parseFloat(e.target.value);
+                document.getElementById('topWidthValue').textContent = params.topWidth.toFixed(1) + '"';
+                updateAllViews();
+            });
+
+            // Rake slider
+            document.getElementById('rakeSlider').addEventListener('input', (e) => {
+                params.rake = parseInt(e.target.value);
+                document.getElementById('rakeValue').textContent = params.rake + '°';
+                updateAllViews();
+            });
+
+            // Base deflection slider
+            document.getElementById('baseDeflectionSlider').addEventListener('input', (e) => {
+                params.baseDeflection = parseInt(e.target.value);
+                document.getElementById('baseDeflectionValue').textContent = params.baseDeflection + '°';
+                updateAllViews();
+            });
+
+            // Top deflection slider
+            document.getElementById('topDeflectionSlider').addEventListener('input', (e) => {
+                params.topDeflection = parseInt(e.target.value);
+                document.getElementById('topDeflectionValue').textContent = params.topDeflection + '°';
+                updateAllViews();
+            });
+
+            // Curve progression slider
+            document.getElementById('curveProgressionSlider').addEventListener('input', (e) => {
+                params.curveProgression = parseFloat(e.target.value);
+                document.getElementById('curveProgressionValue').textContent = params.curveProgression.toFixed(1);
+                updateAllViews();
+            });
+
+            // Transparency slider
+            document.getElementById('transparencySlider').addEventListener('input', (e) => {
+                params.transparency = parseInt(e.target.value);
+                document.getElementById('transparencyValue').textContent = params.transparency + '%';
+                updateAllViews();
+            });
+        }
+
+        function resetToDefaults() {
+            params = { ...defaults };
+
+            // Update slider values
+            document.getElementById('heightSlider').value = defaults.height;
+            document.getElementById('heightValue').textContent = defaults.height.toFixed(1) + '"';
+
+            document.getElementById('topWidthSlider').value = defaults.topWidth;
+            document.getElementById('topWidthValue').textContent = defaults.topWidth.toFixed(1) + '"';
+
+            document.getElementById('rakeSlider').value = defaults.rake;
+            document.getElementById('rakeValue').textContent = defaults.rake + '°';
+
+            document.getElementById('baseDeflectionSlider').value = defaults.baseDeflection;
+            document.getElementById('baseDeflectionValue').textContent = defaults.baseDeflection + '°';
+
+            document.getElementById('topDeflectionSlider').value = defaults.topDeflection;
+            document.getElementById('topDeflectionValue').textContent = defaults.topDeflection + '°';
+
+            document.getElementById('curveProgressionSlider').value = defaults.curveProgression;
+            document.getElementById('curveProgressionValue').textContent = defaults.curveProgression.toFixed(1);
+
+            document.getElementById('transparencySlider').value = defaults.transparency;
+            document.getElementById('transparencyValue').textContent = defaults.transparency + '%';
+
+            updateAllViews();
+        }
+
+        function updateAllViews() {
+            drawSideView();
+            drawFrontView();
+            drawTopView();
+            updateStats();
+            checkWarnings();
+        }
+
+        function drawSideView() {
+            const canvas = document.getElementById('sideCanvas');
+            const ctx = sideCtx;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Setup
+            const margin = 50;
+            const originX = margin;
+            const originY = canvas.height - margin;
+
+            // Draw grid
+            drawGrid(ctx, originX, originY, canvas.width - 2*margin, canvas.height - 2*margin);
+
+            // Draw rider reference (simplified)
+            drawRiderSideView(ctx, originX, originY);
+
+            // Draw windscreen profile with compound curve
+            drawWindscreenSideProfile(ctx, originX, originY);
+
+            // Draw dimensions
+            drawSideDimensions(ctx, originX, originY);
+
+            // Draw axes
+            drawAxes(ctx, originX, originY, 'X (fore/aft)', 'Z (height)');
+        }
+
+        function drawFrontView() {
+            const canvas = document.getElementById('frontCanvas');
+            const ctx = frontCtx;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Setup
+            const margin = 50;
+            const originX = canvas.width / 2;
+            const originY = canvas.height - margin;
+
+            // Draw grid
+            drawGrid(ctx, margin, margin, canvas.width - 2*margin, canvas.height - 2*margin);
+
+            // Draw rider reference (shoulders)
+            drawRiderFrontView(ctx, originX, originY);
+
+            // Draw windscreen front view (tapered shape)
+            drawWindscreenFrontProfile(ctx, originX, originY);
+
+            // Draw dimensions
+            drawFrontDimensions(ctx, originX, originY);
+
+            // Draw axes
+            drawAxes(ctx, originX, originY, 'Y (lateral)', 'Z (height)');
+        }
+
+        function drawTopView() {
+            const canvas = document.getElementById('topCanvas');
+            const ctx = topCtx;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Setup
+            const margin = 50;
+            const originX = canvas.width / 2;
+            const originY = canvas.height - margin - 50;
+
+            // Draw grid
+            drawGrid(ctx, margin, margin, canvas.width - 2*margin, canvas.height - 2*margin);
+
+            // Draw rider reference (shoulders from top)
+            drawRiderTopView(ctx, originX, originY);
+
+            // Draw windscreen top view (taper)
+            drawWindscreenTopProfile(ctx, originX, originY);
+
+            // Draw dimensions
+            drawTopDimensions(ctx, originX, originY);
+
+            // Draw axes
+            drawAxes(ctx, originX, originY, 'Y (lateral)', 'X (fore/aft)');
+        }
+
+        function drawGrid(ctx, x, y, w, h) {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+
+            // Vertical lines every 2 inches
+            for (let i = 0; i <= w; i += scale * 2) {
+                ctx.beginPath();
+                ctx.moveTo(x + i, y);
+                ctx.lineTo(x + i, y + h);
+                ctx.stroke();
+            }
+
+            // Horizontal lines every 2 inches
+            for (let i = 0; i <= h; i += scale * 2) {
+                ctx.beginPath();
+                ctx.moveTo(x, y + i);
+                ctx.lineTo(x + w, y + i);
+                ctx.stroke();
+            }
+        }
+
+        function drawAxes(ctx, originX, originY, xLabel, yLabel) {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+
+            // X axis
+            ctx.beginPath();
+            ctx.moveTo(originX, originY);
+            ctx.lineTo(originX + 100, originY);
+            ctx.stroke();
+
+            // Y axis
+            ctx.beginPath();
+            ctx.moveTo(originX, originY);
+            ctx.lineTo(originX, originY - 100);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+            // Labels
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(xLabel, originX + 105, originY + 5);
+            ctx.fillText(yLabel, originX + 5, originY - 105);
+        }
+
+        function drawRiderSideView(ctx, originX, originY) {
+            // Simplified rider silhouette at 18" behind screen
+            const riderX = originX + 18 * scale;
+
+            ctx.strokeStyle = 'rgba(255, 200, 100, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([3, 3]);
+
+            // Torso
+            ctx.beginPath();
+            ctx.moveTo(riderX, originY);
+            ctx.lineTo(riderX, originY - 15 * scale);
+            ctx.stroke();
+
+            // Head (chin at 20")
+            ctx.beginPath();
+            ctx.arc(riderX, originY - 20 * scale, 2 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+            // Label
+            ctx.fillStyle = 'rgba(255, 200, 100, 0.8)';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText('Rider', riderX - 15, originY - 22 * scale);
+            ctx.fillText('(5\'10")', riderX - 18, originY - 20.5 * scale);
+        }
+
+        function drawRiderFrontView(ctx, originX, originY) {
+            // Shoulders at 26" width, 15-17" height
+            const shoulderWidth = 26 * scale / 2;
+            const shoulderHeight = 16 * scale;
+
+            ctx.strokeStyle = 'rgba(255, 200, 100, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([3, 3]);
+
+            // Shoulders line
+            ctx.beginPath();
+            ctx.moveTo(originX - shoulderWidth, originY - shoulderHeight);
+            ctx.lineTo(originX + shoulderWidth, originY - shoulderHeight);
+            ctx.stroke();
+
+            // Torso
+            ctx.beginPath();
+            ctx.moveTo(originX, originY);
+            ctx.lineTo(originX, originY - shoulderHeight);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+            // Head
+            ctx.beginPath();
+            ctx.arc(originX, originY - 20 * scale, 2 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Label shoulders
+            ctx.fillStyle = 'rgba(255, 200, 100, 0.8)';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.fillText('26"', originX - shoulderWidth - 15, originY - shoulderHeight - 5);
+            ctx.fillText('shoulders', originX - shoulderWidth - 28, originY - shoulderHeight + 8);
+        }
+
+        function drawRiderTopView(ctx, originX, originY) {
+            // Rider at 18" behind screen (Y-axis points up in top view = forward)
+            const riderY = originY - 18 * scale;
+            const shoulderWidth = 26 * scale / 2;
+
+            ctx.strokeStyle = 'rgba(255, 200, 100, 0.6)';
+            ctx.fillStyle = 'rgba(255, 200, 100, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([3, 3]);
+
+            // Shoulders (ellipse)
+            ctx.beginPath();
+            ctx.ellipse(originX, riderY, shoulderWidth, 3 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+            // Label
+            ctx.fillStyle = 'rgba(255, 200, 100, 0.8)';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.fillText('Rider', originX - 15, riderY);
+            ctx.fillText('@ 18"', originX - 12, riderY + 12);
+        }
+
+        function drawWindscreenSideProfile(ctx, originX, originY) {
+            const segments = 30;
+            const alpha = params.transparency / 100;
+
+            // Calculate rake offset
+            const rakeRad = params.rake * Math.PI / 180;
+            const rakeOffset = params.height * Math.tan(rakeRad);
+
+            // Draw windscreen profile with compound curve
+            ctx.strokeStyle = `rgba(100, 200, 255, ${0.8})`;
+            ctx.fillStyle = `rgba(100, 200, 255, ${alpha})`;
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+
+            // Start at base
+            ctx.moveTo(originX, originY);
+
+            // Generate curve points
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments;
+                const h = params.height * t;
+
+                // Deflection progression (compound curve)
+                const deflection = params.baseDeflection +
+                    (params.topDeflection - params.baseDeflection) * Math.pow(t, params.curveProgression);
+                const deflectionRad = deflection * Math.PI / 180;
+
+                // X displacement from deflection curve
+                const xDeflection = params.height * t * Math.tan(deflectionRad) * 0.5;
+
+                // Total X = rake offset + deflection curve
+                const x = originX + (rakeOffset * t) + xDeflection;
+                const y = originY - (h * scale);
+
+                ctx.lineTo(x, y);
+            }
+
+            // Close shape (back edge)
+            ctx.lineTo(originX + rakeOffset, originY);
+            ctx.closePath();
+
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw top edge highlight
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.lineWidth = 2;
+            const topT = 1.0;
+            const topH = params.height * topT;
+            const topDeflectionRad = params.topDeflection * Math.PI / 180;
+            const topXDeflection = params.height * topT * Math.tan(topDeflectionRad) * 0.5;
+            const topX = originX + (rakeOffset * topT) + topXDeflection;
+            const topY = originY - (topH * scale);
+
+            ctx.beginPath();
+            ctx.arc(topX, topY, 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawWindscreenFrontProfile(ctx, originX, originY) {
+            const alpha = params.transparency / 100;
+            const segments = 20;
+
+            ctx.strokeStyle = `rgba(100, 200, 255, 0.8)`;
+            ctx.fillStyle = `rgba(100, 200, 255, ${alpha})`;
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+
+            // Left edge (base to top, tapering outward)
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments;
+                const h = params.height * t;
+                const w = params.baseWidth + (params.topWidth - params.baseWidth) * t;
+                const x = originX - (w / 2) * scale;
+                const y = originY - (h * scale);
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            // Top edge
+            const topW = params.topWidth;
+            ctx.lineTo(originX + (topW / 2) * scale, originY - params.height * scale);
+
+            // Right edge (top to base)
+            for (let i = segments; i >= 0; i--) {
+                const t = i / segments;
+                const h = params.height * t;
+                const w = params.baseWidth + (params.topWidth - params.baseWidth) * t;
+                const x = originX + (w / 2) * scale;
+                const y = originY - (h * scale);
+                ctx.lineTo(x, y);
+            }
+
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Highlight top corners
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.beginPath();
+            ctx.arc(originX - (topW / 2) * scale, originY - params.height * scale, 3, 0, Math.PI * 2);
+            ctx.arc(originX + (topW / 2) * scale, originY - params.height * scale, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawWindscreenTopProfile(ctx, originX, originY) {
+            const alpha = params.transparency / 100;
+            const segments = 20;
+
+            // Calculate rake offset
+            const rakeRad = params.rake * Math.PI / 180;
+            const rakeOffset = params.height * Math.tan(rakeRad);
+
+            ctx.strokeStyle = `rgba(100, 200, 255, 0.8)`;
+            ctx.fillStyle = `rgba(100, 200, 255, ${alpha})`;
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+
+            // Left edge (base to top)
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments;
+                const x = originY - (rakeOffset * t * scale);
+                const w = params.baseWidth + (params.topWidth - params.baseWidth) * t;
+                const y = originX - (w / 2) * scale;
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            // Right edge (top to base)
+            for (let i = segments; i >= 0; i--) {
+                const t = i / segments;
+                const x = originY - (rakeOffset * t * scale);
+                const w = params.baseWidth + (params.topWidth - params.baseWidth) * t;
+                const y = originX + (w / 2) * scale;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Base line (headlight mount)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(originY, originX - params.baseWidth * scale / 2);
+            ctx.lineTo(originY, originX + params.baseWidth * scale / 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function drawSideDimensions(ctx, originX, originY) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 11px sans-serif';
+
+            // Height dimension
+            const rakeRad = params.rake * Math.PI / 180;
+            const rakeOffset = params.height * Math.tan(rakeRad);
+            const topDeflectionRad = params.topDeflection * Math.PI / 180;
+            const topXDeflection = params.height * Math.tan(topDeflectionRad) * 0.5;
+            const topX = originX + rakeOffset + topXDeflection;
+            const topY = originY - params.height * scale;
+
+            drawDimensionLine(ctx, topX + 20, topY, topX + 20, originY, params.height.toFixed(1) + '"');
+
+            // Rake angle
+            ctx.save();
+            ctx.translate(originX + 40, originY - 20);
+            ctx.rotate(-rakeRad);
+            ctx.fillText(params.rake + '° rake', 0, 0);
+            ctx.restore();
+        }
+
+        function drawFrontDimensions(ctx, originX, originY) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 11px sans-serif';
+
+            // Base width
+            const baseLeft = originX - (params.baseWidth / 2) * scale;
+            const baseRight = originX + (params.baseWidth / 2) * scale;
+            drawDimensionLine(ctx, baseLeft, originY + 20, baseRight, originY + 20, params.baseWidth.toFixed(1) + '"');
+
+            // Top width
+            const topLeft = originX - (params.topWidth / 2) * scale;
+            const topRight = originX + (params.topWidth / 2) * scale;
+            const topY = originY - params.height * scale;
+            drawDimensionLine(ctx, topLeft, topY - 20, topRight, topY - 20, params.topWidth.toFixed(1) + '"');
+
+            // Height
+            drawDimensionLine(ctx, originX + (params.topWidth / 2) * scale + 20, topY,
+                              originX + (params.topWidth / 2) * scale + 20, originY,
+                              params.height.toFixed(1) + '"');
+        }
+
+        function drawTopDimensions(ctx, originX, originY) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 11px sans-serif';
+
+            const rakeRad = params.rake * Math.PI / 180;
+            const rakeOffset = params.height * Math.tan(rakeRad);
+
+            // Base width
+            const baseY = originY;
+            const baseLeft = originX - (params.baseWidth / 2) * scale;
+            const baseRight = originX + (params.baseWidth / 2) * scale;
+            drawDimensionLine(ctx, baseLeft, baseY + 25, baseRight, baseY + 25,
+                              params.baseWidth.toFixed(1) + '" base');
+
+            // Top width
+            const topY = originY - rakeOffset * scale;
+            const topLeft = originX - (params.topWidth / 2) * scale;
+            const topRight = originX + (params.topWidth / 2) * scale;
+            drawDimensionLine(ctx, topLeft, topY - 25, topRight, topY - 25,
+                              params.topWidth.toFixed(1) + '" top');
+        }
+
+        function drawDimensionLine(ctx, x1, y1, x2, y2, label) {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+
+            // Main line
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+
+            // End caps
+            const capSize = 5;
+            ctx.setLineDash([]);
+            ctx.lineWidth = 2;
+
+            if (Math.abs(x2 - x1) > Math.abs(y2 - y1)) {
+                // Horizontal dimension
+                ctx.beginPath();
+                ctx.moveTo(x1, y1 - capSize);
+                ctx.lineTo(x1, y1 + capSize);
+                ctx.moveTo(x2, y2 - capSize);
+                ctx.lineTo(x2, y2 + capSize);
+                ctx.stroke();
+            } else {
+                // Vertical dimension
+                ctx.beginPath();
+                ctx.moveTo(x1 - capSize, y1);
+                ctx.lineTo(x1 + capSize, y1);
+                ctx.moveTo(x2 - capSize, y2);
+                ctx.lineTo(x2 + capSize, y2);
+                ctx.stroke();
+            }
+
+            // Label
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 11px sans-serif';
+            const midX = (x1 + x2) / 2;
+            const midY = (y1 + y2) / 2;
+            ctx.fillText(label, midX + 5, midY - 5);
+        }
+
+        function updateStats() {
+            // Total height
+            document.getElementById('totalHeight').textContent = params.height.toFixed(1) + '"';
+
+            // Width expansion
+            const expansion = params.topWidth - params.baseWidth;
+            document.getElementById('widthExpansion').textContent = '+' + expansion.toFixed(1) + '"';
+
+            // Taper ratio
+            const ratio = params.topWidth / params.baseWidth;
+            document.getElementById('taperRatio').textContent = ratio.toFixed(2) + 'x';
+
+            // Average deflection
+            const avgDeflection = (params.baseDeflection + params.topDeflection) / 2;
+            document.getElementById('avgDeflection').textContent = avgDeflection.toFixed(1) + '°';
+
+            // Approximate surface area (simplified trapezoid)
+            const avgWidth = (params.baseWidth + params.topWidth) / 2;
+            const area = avgWidth * params.height;
+            document.getElementById('surfaceArea').textContent = Math.round(area) + ' in²';
+
+            // Material cost estimate (rough: $1.50-2.00 per sq ft)
+            const sqFt = area / 144;
+            const cost = Math.round(sqFt * 25); // ~$25 per sq ft for 4mm polycarbonate
+            document.getElementById('materialCost').textContent = '$' + cost;
+        }
+
+        function checkWarnings() {
+            const warnings = [];
+
+            // Check height
+            if (params.height < 18) {
+                warnings.push('Height below 18" may not protect chin for 5\'10" rider');
+            }
+            if (params.height > 22) {
+                warnings.push('Height above 22" may look disproportionate on V7');
+            }
+
+            // Check taper
+            if (params.topWidth < params.baseWidth) {
+                warnings.push('⚠️ INVERTED TAPER: Top narrower than base (like current screen) - may cause vortex issues');
+            }
+            if (params.topWidth < 14) {
+                warnings.push('Top width below 14" provides limited shoulder coverage');
+            }
+            if (params.topWidth > 18) {
+                warnings.push('Top width above 18" may look too wide');
+            }
+
+            // Check rake
+            if (params.rake < 10) {
+                warnings.push('Rake below 10° may create excessive buffeting');
+            }
+            if (params.rake > 25) {
+                warnings.push('Rake above 25° may reduce effectiveness');
+            }
+
+            // Check deflection
+            if (params.topDeflection < params.baseDeflection) {
+                warnings.push('Top deflection less than base is aerodynamically incorrect');
+            }
+            if (params.topDeflection - params.baseDeflection > 20) {
+                warnings.push('Large deflection range (>20°) may be difficult to form');
+            }
+
+            // Display warnings
+            const warningBox = document.getElementById('warningBox');
+            const warningText = document.getElementById('warningText');
+
+            if (warnings.length > 0) {
+                warningBox.classList.add('active');
+                warningText.innerHTML = warnings.map(w => '• ' + w).join('<br>');
+            } else {
+                warningBox.classList.remove('active');
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
