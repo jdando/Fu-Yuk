@@ -3,7 +3,7 @@ tags: #career #contracting #sow | rev: 2026-10-29
 
 Two parts. **Part A** is the 1-page proposal you send after call 1. **Part B** is the SOW that becomes the contract exhibit once they accept. Replace every `<<FIELD>>`. Delete this header block and the `[NOTE]` lines before sending. Work on a copy in `private/`.
 
-Rates come from `02_rate_model_output.md`. Quote TARGET or OPEN; never below FLOOR.
+Rates come from `02_rate_model_output.md`. Quote OPEN in writing, settle toward TARGET, never below FLOOR.
 
 ---
 
@@ -35,12 +35,12 @@ D3  <<e.g., on-call SME support>>       <<hours/mo>>        <<ongoing>>
 
 ```
 OPTION                       PRICE                                   BEST IF
-1  Monthly retainer          $<<TARGET x block x (1 - discount)>>/mo   you expect steady questions and
-   (<<n>> h/mo block)        overage at $<<TARGET>>/h                  want guaranteed access
-2  Time and materials        $<<TARGET>>/h, invoiced monthly         scope is still unclear
+1  Monthly retainer          $<<OPEN x block x (1 - discount)>>/mo     you expect steady questions and
+   (<<n>> h/mo block)        overage at $<<OPEN>>/h                    want guaranteed access
+2  Time and materials        $<<OPEN>>/h, invoiced monthly           scope is still unclear
 3  Fixed fee for D1-D2       $<<computed: est. hours x OPEN>>         scope is tight and well defined
 ```
-[NOTE] Compute every figure with 02 (`--set` overrides), section 6 for retainer math. Lead with the option you want them to pick; the 01 rubric favors option 1.
+[NOTE] Compute every figure with 02 (`--set` overrides), section 6 for retainer math. Concede toward TARGET only in exchange for something (longer block, faster payment). Lead with the option you want them to pick; the 01 rubric favors option 1.
 
 ### 5. Assumptions
 
@@ -56,7 +56,7 @@ Reply to accept an option. I'll send the SOW below for signature, with your MSA 
 
 **SOW #** <<n>> under <<MSA dated ____ / the terms below>>
 **Client:** <<CLIENT LEGAL ENTITY>>, <<ADDRESS>>
-**Contractor:** <<YOUR LLC LEGAL NAME or YOUR NAME>>, <<ADDRESS>>, EIN/TIN on W-9
+**Contractor:** <<YOUR LLC LEGAL NAME or YOUR NAME>>, <<ADDRESS>>, taxpayer ID on W-9 (see 04 section 30)
 **Effective date:** <<DATE>> · **Term:** <<DATE>> to <<DATE>>, renewing month-to-month unless either party gives notice
 
 [NOTE] Contract through your LLC if you have one, never as an individual if the LLC exists.
@@ -104,9 +104,9 @@ Client provides: a named point of contact; timely access to <<people, systems, d
 
 ```
 ITEM                    TERM
-rate                    $<<TARGET>>/h
+rate                    $<<agreed rate: OPEN, or as negotiated, never below FLOOR>>/h
 retainer (if chosen)    $<<amount>>/mo for <<n>> h/mo, billed in advance; unused hours
-                        roll over at most <<1>> mo; overage billed at $<<TARGET>>/h in arrears
+                        roll over at most <<1>> mo; overage billed at $<<agreed rate>>/h in arrears
 minimum increment       <<0.5>> h; ad-hoc calls <<1>> h minimum
 travel                  time billed at $<<rate>>/h; expenses at cost with receipts,
                         pre-approved above $<<amount>>
@@ -138,7 +138,7 @@ Either party may terminate on <<30>> d written notice. Client pays for Services 
 
 ### B13. Liability and insurance
 
-Each party's total liability is capped at fees paid under this SOW in the <<6>> mo before the claim; neither party is liable for indirect or consequential damages. Contractor carries <<professional liability $____ / general liability $____>>.
+Each party's total liability is capped at fees paid under this SOW in the <<6>> mo before the claim; neither party is liable for indirect or consequential damages. The cap does not limit client's obligation to pay fees and expenses due. Contractor carries <<professional liability $____ / general liability $____>>.
 [NOTE] Get insurance quotes before agreeing to any limit the client demands.
 
 ### B14. Non-solicitation

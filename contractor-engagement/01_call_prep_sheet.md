@@ -14,10 +14,10 @@ ID   TEXT                                                   TYPE  ORIGIN
 C1   Engagement is contractor / subject-matter expert       ~     assumed; agency W-2 not excluded
      (SME), not a W-2 re-hire
 C2   No price commitment on call 1; range only if pressed   ~     assumed
-C3   Rate never below FLOOR (02 output, section 3)          !     assumed; CAPT to confirm
+C3   Rate never below FLOOR (02 output, section 3)          !     assumed; you confirm
 C4   Prior agreements (severance, NDA, non-compete)          !     legal; see section 30
      are honored
-C5   ____                                                   _     CAPT
+C5   ____                                                   _     you
 ```
 Types: `!` hard (may exclude) · `~` ranked preference (demotes only) · `+` bonus.
 
@@ -29,15 +29,17 @@ severance agreement         exit packet                 rehire bar, repayment tr
                                                         non-disparagement, release scope
 NDA / confidentiality       offer letter, NDA           what you may not use or disclose               ____
 non-compete / non-solicit   offer letter, exit packet   scope, duration, still running? Federal FTC    ____
-                                                        ban was vacated 2025; state law governs
+                                                        ban set aside by a court Aug 2024, appeals
+                                                        dropped Sept 2025; state law governs
 invention / IP assignment   offer letter, PIIA          does it reach post-employment work?            ____
 pension / retiree status    plan document, HR           does contractor work suspend or alter it?      ____
 equity (options, RSUs)      plan document               does consultant service count as continuous    ____
                                                         service? can change exercise windows
 unemployment benefits       state agency                contract income must be reported               ____
-government / clearance      agency ethics office        ONLY IF former employer is a federal agency    ____
-                                                        or you held a clearance: post-employment
-                                                        limits (18 U.S.C. 207), get a written opinion
+federal post-employment     agency ethics office        ONLY IF former employer is a federal agency:   ____
+                                                        18 U.S.C. 207 limits; get a written opinion
+security clearance          facility security officer   ONLY IF the work needs one: reinstatement      ____
+                                                        path and lead time
 who called, and why         the invite                  HR, old manager or new manager? title          ____
                                                         signals budget authority
 your 3 relevant wins        memory, old reviews         wins that map to their current problem         ____
@@ -45,32 +47,35 @@ your 3 relevant wins        memory, old reviews         wins that map to their c
 
 ## 40. WALK-AWAY TERMS (fill before call)
 
-Rates come from `02_rate_model_output.md` (section 3, or your row in section 4). Non-rate positions are **assumed defaults**; change to suit.
+Rates come from `02_rate_model_output.md` (section 3, or your row in section 4). Non-rate positions are **assumed defaults**; change to suit. The written proposal quotes the OPEN column; you settle toward TARGET; FLOOR is the walk-away. Positions match `04_contract_review_checklist.md` (YOUR ASK = target, FALLBACK = walk-away).
 
 ```
-TERM                     WALK-AWAY (FLOOR)            TARGET                       OPEN WITH
-hourly rate              $____/h  (FLOOR row)         $____/h  (TARGET row)        $____/h  (OPEN row)
-minimum commitment       ____ h/mo                    ____ h/mo                    ____ h/mo
-overage (above block)    TARGET rate                  TARGET rate                  OPEN rate
-ad-hoc call minimum      0.5 h                        1 h                          1 h
-payment terms            net 45 d                     net 30 d                     net 15 d
-invoicing                monthly                      monthly                      semi-monthly
-term                     month-to-month               6 mo                         12 mo + escalator
-rate escalator           re-price at renewal          3%/yr                        5%/yr
-termination notice       14 d mutual, paid to date    30 d mutual, paid to date    30 d mutual, paid to date
-IP ownership             deliverables only, on        + background IP and          same as target
-                         payment                      know-how excluded
-non-compete              none, or named competitors   none                         none
-                         for term + 6 mo
-non-solicit              mutual, 12 mo                mutual, 6 mo                 none
-liability cap            fees paid prior 12 mo        fees paid prior 6 mo         fees paid prior 3 mo
-indemnity                mutual, gross negligence /   same                         same
-                         willful misconduct only
-on-site share            ____%                        ____%                        remote
-travel                   time billed at FLOOR,        time at TARGET,              time at TARGET,
-                         expenses at cost             expenses at cost             expenses at cost
-exclusivity              NONE. STOP if required       none                         none
-structure                see section 50               see section 50               see section 50
+TERM                  BETTER =                 WALK-AWAY (FLOOR)              TARGET                         OPEN WITH
+hourly rate           higher                   $____/h  (FLOOR row)           $____/h  (TARGET row)          $____/h  (OPEN row)
+minimum commitment    more hours               ____ h/mo                      ____ h/mo                      ____ h/mo
+overage (above block) higher                   TARGET rate                    TARGET rate                    OPEN rate
+ad-hoc call minimum   longer                   0.5 h                          1 h                            1 h
+payment terms         fewer days               net 45 d                       net 30 d                       net 15 d
+invoicing             more often               monthly                        monthly                        semi-monthly
+term                  longer, only if early    month-to-month                 6 mo                           12 mo + escalator
+                      exit is limited
+rate escalator        higher                   re-price at renewal            3%/yr                          5%/yr
+termination notice    longer (binds both)      14 d mutual, paid to date      30 d mutual, paid to date      30 d mutual, paid to date
+IP ownership          less transferred         deliverables only, on          + background IP and            same as target
+                                               payment                        know-how excluded
+non-compete           none                     none, or named competitors     none                           none
+                                               for term + 6 mo
+non-solicit           shorter / none           mutual, 12 mo                  mutual, 6 mo                   none
+liability cap         lower                    fees paid prior 12 mo;         fees paid prior 6 mo;          fees paid prior 3 mo;
+                                               unpaid fees carved out         same carve-out                 same carve-out
+indemnity             narrower                 mutual, third-party claims,    mutual, gross negligence /     same as target
+                                               capped at liability cap        willful misconduct only
+on-site share         lower                    ____%                          ____%                          remote
+travel                time billed higher       time at FLOOR,                 time at TARGET,                time at TARGET,
+                                               expenses at cost               expenses at cost               expenses at cost
+exclusivity           none                     none, unless retainer covers   none                           none
+                                               required revenue (02 sec. 2)
+structure             see section 50           see section 50                 see section 50                 see section 50
 ```
 
 ## 50. ENGAGEMENT SHAPE
@@ -99,7 +104,7 @@ STRUCTURE                 YOU PAY            MISCLASSIFICATION RISK      FITS WH
 W-2 via staffing agency   employee half      lowest; agency is           client insists, or the work
                                              employer                    looks like the old job
 ```
-Agency route: the agency's markup goes **on top of** your rate, not out of it. Your W-2 pay rate then compares against your old salary, not the 02 ladder.
+Agency route: the agency's markup goes **on top of** your rate, not out of it. Your W-2 pay rate then compares against your old salary **plus** whatever the agency doesn't provide (health, match, paid time off; 02 section 2), not the 02 ladder.
 
 Lens A: 65% conf retainer + overage beats T&M for SME work. Counter: a retainer invites "you're already paid, just answer this" creep → define the block in the SOW, track hours, bill overage monthly, no rollover beyond 1 mo.
 
@@ -150,7 +155,7 @@ THEY SAY                                  YOU SAY
 "What were you making when you left?"     "My contractor rate depends on scope. For this work it's
                                           $TARGET to $OPEN per hour."
 "Can you just help as needed, hourly?"    "Yes, with a minimum monthly block. Ad-hoc work bills at
-                                          my standard rate, one-hour minimum."
+                                          the contract hourly rate, one-hour minimum."
 "We'd go through [agency]."               "Fine. The agency's markup sits on top of my rate."
 "Can you start Monday?"                   "I can start once we have a signed SOW and PO."
 "Here's our standard contract."           "Send it. I'll return redlines within ____ business days."
@@ -182,7 +187,7 @@ Lens D: 60% conf you hold more leverage than they do. Counter: they may have alt
 
 ```
 [ ] Send recap email (template below)
-[ ] Re-run 02 with real salary and health:  python3 02_rate_model.py --out private/rate_model_real.md --set ...
+[ ] Re-run 02 with real salary and health:  python3 02_rate_model.py --set ...   (writes to private/)
 [ ] Draft proposal from 03 into private/
 [ ] Ask for their contract template; review with 04
 ```
@@ -207,6 +212,7 @@ over and I'll review it in parallel.
 ```
 DECISIONS MADE   Call 1 = discovery; price deferred to written proposal (C2).
                  Retainer + overage is the lead pricing model (Lens A, 65% conf).
+                 Written proposal quotes OPEN; settle toward TARGET; FLOOR = walk-away.
 OPEN QUESTIONS   Structure: LLC vs agency W-2 (Lens B, 55% conf), decided after call 1.
                  Walk-away on non-rate terms (section 40) are defaults; confirm.
 INPUTS NEEDED    Prior salary and bonus; health coverage source (employer share or
@@ -219,6 +225,6 @@ INPUTS NEEDED    Prior salary and bonus; health coverage source (employer share 
 - FTC non-compete rule vacated, appeals dropped Sept 2025: [Paul Weiss](https://www.paulweiss.com/insights/client-memos/ftc-shifts-approach-to-non-compete-enforcement), [Squire Patton Boggs](https://www.squirepattonboggs.com/insights/publications/rule-abandoned-crackdown-continues-the-federal-trade-commissions-new-non-compete-strategy/)
 - Rehiring a former employee as a contractor for the same work: [SHRM](https://shrm.org/topics-tools/tools/hr-answers/can-employer-terminate-rehire-employee-independent-contractor-job)
 - IRS common-law test (behavioral, financial, relationship): [IRS Topic 762](https://www.irs.gov/taxtopics/tc762) (via search summary; UNVERIFIED direct read)
-- 18 U.S.C. 207 applicability: UNVERIFIED for your case; ask the agency ethics office.
+- 18 U.S.C. 207 applies to former federal employees only; applicability to you UNVERIFIED; ask the agency ethics office.
 
 Not legal advice.

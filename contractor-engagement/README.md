@@ -17,15 +17,15 @@ FILE                              USE                                         WH
 private/                          your filled-in copies (gitignored)          always
 ```
 
-Run the model with your real numbers, written to the ignored folder:
+Run the model with your real numbers. Any `--set` writes to `private/rate_model_real.md` (ignored by git) unless you pass `--out`; relative paths resolve to this folder, so it runs from anywhere:
 
 ```
-python3 02_rate_model.py --out private/rate_model_real.md \
+python3 02_rate_model.py \
   --set prior_salary_usd_per_yr=<salary> \
   --set prior_bonus_usd_per_yr=<bonus> \
   --set employer_health_usd_per_yr=<employer share, or 0 if covered elsewhere>
 ```
 
-Rate tiers: **BREAKEVEN** (whole vs. old W-2 package) < **FLOOR** (walk-away) < **TARGET** < **OPEN** (opening anchor). Every tier is derived from the parameter block; the script stops if any reconciliation check fails.
+Rate tiers: **BREAKEVEN** (whole vs. old W-2 package) < **FLOOR** (walk-away) < **TARGET** (settle here) < **OPEN** (quote in writing). Every tier is derived from the parameter block; the script stops if any reconciliation check fails.
 
 Not legal or tax advice.

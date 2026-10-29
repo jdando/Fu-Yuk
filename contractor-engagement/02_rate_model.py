@@ -5,9 +5,11 @@ Contractor / SME rate model -- former-employer engagement.
 Every figure in 02_rate_model_output.md is derived here from PARAMS.
 Edit PARAMS (or pass --set key=value) and re-run; never hand-edit the output.
 
-    python3 02_rate_model.py
+    python3 02_rate_model.py              # placeholder inputs -> 02_rate_model_output.md
     python3 02_rate_model.py --set prior_salary_usd_per_yr=165000 --set employer_health_usd_per_yr=0
-    python3 02_rate_model.py --out private/rate_model_real.md   # keep real numbers out of git
+                                          # any --set -> private/rate_model_real.md (gitignored)
+
+Relative --out paths resolve against this script's folder, so it runs from anywhere.
 
 Scope: US federal payroll / self-employment (SE) tax only. Income tax, state
 tax, Additional Medicare Tax and the qualified business income (QBI)
@@ -58,13 +60,13 @@ PARAMS = {
     "sweep_salary_usd_per_yr": (100_000, 125_000, 150_000, 175_000, 200_000, 225_000),
     "sweep_utilization_pct": (60, 75, 90, 100),
     "sweep_health_usd_per_yr": (0, 20_143),
-    # earlier chat claim checked in the sanity section
+    # rule of thumb checked in the sanity section
     "claimed_multiplier_range_x": (1.5, 2.0),
 }
 
 SOURCES = {
-    "prior_salary_usd_per_yr": "PLACEHOLDER - CAPT to supply",
-    "prior_bonus_usd_per_yr": "PLACEHOLDER - CAPT to supply",
+    "prior_salary_usd_per_yr": "PLACEHOLDER - you supply",
+    "prior_bonus_usd_per_yr": "PLACEHOLDER - you supply",
     "employer_health_usd_per_yr": "assumed: KFF 2025 family avg ($26,993/yr premium - $6,850/yr worker share)",
     "employer_retirement_match_pct": "assumed",
     "employer_other_benefits_usd_per_yr": "assumed: life, disability, etc.",
@@ -125,6 +127,10 @@ def mult(x):
     return f"{x:.2f}x"
 
 
+def realized(upper, lower):
+    return f"{100 * (upper / lower - 1):.1f}%"
+
+
 def fmt_param(key, value):
     for tail, (pre, post) in UNITS.items():
         if key.endswith(tail):
@@ -166,7 +172,7 @@ def overhead(p):
 
 
 def benefits(p):
-    match = p["employer_retirement_match_pct"] / 100 * p["prior_salary_usd_per_yr"]
+    match = p["employer_retirement_match_pct"] / 100 * (p["prior_salary_usd_per_yr"] + p["prior_bonus_usd_per_yr"])
     return {
         "health": p["employer_health_usd_per_yr"],
         "match": match,
@@ -232,7 +238,8 @@ def ladder(p):
     floor = round_up(breakeven * (1 + p["risk_margin_pct"] / 100), step)
     target = round_up(floor * (1 + p["sme_premium_pct"] / 100), step)
     opening = round_up(target * (1 + p["anchor_headroom_pct"] / 100), step)
-    old_hourly = p["prior_salary_usd_per_yr"] / (p["weeks_per_yr"] * p["hours_per_week"])
+    old_hourly = ((p["prior_salary_usd_per_yr"] + p["prior_bonus_usd_per_yr"])
+                  / (p["weeks_per_yr"] * p["hours_per_week"]))
     return {"revenue": revenue, "billable": billable, "breakeven": breakeven,
             "floor": floor, "target": target, "open": opening, "old_hourly": old_hourly}
 
@@ -352,13 +359,16 @@ def build_report(p, checks):
     w(f"{'TIER':<11}{'RATE':>12}{'x OLD HOURLY':>14}{'DAY (' + hrs(hpd, ' h') + ')':>14}   MEANING")
     rows = [
         ("BREAKEVEN", L["breakeven"], "whole vs. old W-2 package; below this = pay cut"),
-        ("FLOOR", L["floor"], f"WALK-AWAY. breakeven + {pct(p['risk_margin_pct'])} risk margin"),
-        ("TARGET", L["target"], f"floor + {pct(p['sme_premium_pct'])} SME premium"),
-        ("OPEN", L["open"], f"opening anchor. target + {pct(p['anchor_headroom_pct'])} headroom"),
+        ("FLOOR", L["floor"], f"WALK-AWAY. breakeven + {realized(L['floor'], L['breakeven'])} "
+                              f"(min {pct(p['risk_margin_pct'])} risk margin, rounded up)"),
+        ("TARGET", L["target"], f"settle here. floor + {realized(L['target'], L['floor'])} "
+                                f"(min {pct(p['sme_premium_pct'])} SME premium, rounded up)"),
+        ("OPEN", L["open"], f"QUOTE IN WRITING. target + {realized(L['open'], L['target'])} "
+                            f"(min {pct(p['anchor_headroom_pct'])} headroom, rounded up)"),
     ]
     for name, r, meaning in rows:
         w(f"{name:<11}{rate(r):>12}{mult(r / L['old_hourly']):>14}{usd(r * hpd, '/d'):>14}   {meaning}")
-    w(f"old hourly = salary / paid hours = {rate(round(L['old_hourly'], 2))}")
+    w(f"old hourly = (salary + bonus) / paid hours = {rate(round(L['old_hourly'], 2))}")
     w("```")
     w("")
 
@@ -390,40 +400,39 @@ def build_report(p, checks):
     w("```")
     w("")
 
+    disc = 1 - p["retainer_discount_pct"] / 100
     w("## 6. Engagement scenarios (this client only)")
-    w(f"Monthly fee at TARGET; retainer = guaranteed block at {pct(p['retainer_discount_pct'])} off; "
-      "share = annualized fee / required revenue.")
+    w(f"Quote OPEN in writing, settle at TARGET, walk at FLOOR. Retainer = guaranteed block priced at OPEN "
+      f"less {pct(p['retainer_discount_pct'])}; overage at OPEN. Share = annualized fee at TARGET / required revenue.")
     w("```")
-    w(f"{'HOURS':>10}{'FEE @ FLOOR':>16}{'FEE @ TARGET':>16}{'RETAINER':>14}{'ANNUALIZED':>16}{'SHARE':>8}")
+    w(f"{'HOURS':>10}{'@ FLOOR':>13}{'@ TARGET':>13}{'@ OPEN':>13}{'RETAINER':>13}{'ANNUAL @ TARGET':>17}{'SHARE':>7}")
     for hpm in p["scenario_hours_per_month"]:
-        fee_f = hpm * L["floor"]
         fee_t = hpm * L["target"]
-        ret = fee_t * (1 - p["retainer_discount_pct"] / 100)
-        w(f"{hrs(hpm, ' h/mo'):>10}{usd(fee_f, '/mo'):>16}{usd(fee_t, '/mo'):>16}{usd(ret, '/mo'):>14}"
-          f"{usd(fee_t * 12):>16}{pct(round(100 * fee_t * 12 / L['revenue'])):>8}")
+        w(f"{hrs(hpm, ' h/mo'):>10}{usd(hpm * L['floor'], '/mo'):>13}{usd(fee_t, '/mo'):>13}"
+          f"{usd(hpm * L['open'], '/mo'):>13}{usd(hpm * L['open'] * disc, '/mo'):>13}"
+          f"{usd(fee_t * 12):>17}{pct(round(100 * fee_t * 12 / L['revenue'])):>7}")
     w("```")
-    w("Retainer must not undercut FLOOR: "
-      f"{rate(round(L['target'] * (1 - p['retainer_discount_pct'] / 100), 2))} vs FLOOR {rate(L['floor'])}"
-      f" -> {'OK' if L['target'] * (1 - p['retainer_discount_pct'] / 100) >= L['floor'] else 'VIOLATION'}.")
+    eff = L["open"] * disc
+    w(f"Retainer effective rate {rate(round(eff, 2))} vs TARGET {rate(L['target'])} and FLOOR {rate(L['floor'])}"
+      f" -> {'OK' if eff >= L['target'] else ('BELOW TARGET' if eff >= L['floor'] else 'VIOLATION: below FLOOR')}.")
     w("")
 
-    w("## 7. Sanity: earlier chat claim")
+    w("## 7. Sanity: rule of thumb")
     lo, hi = p["claimed_multiplier_range_x"]
     full = ladder(with_(p, utilization_pct=100))
     be_x = L["breakeven"] / L["old_hourly"]
     full_x = full["breakeven"] / full["old_hourly"]
-    tgt_x = L["target"] / L["old_hourly"]
-    div = max(0.0, (tgt_x - hi) / hi * 100)
+    floor_x = L["floor"] / L["old_hourly"]
+    div = (be_x - hi) / hi * 100
     w("```")
-    w(f"claim (2026-10-29 chat)          {mult(lo)} to {mult(hi)} old hourly")
-    w(f"model BREAKEVEN @ {pct(p['utilization_pct']):<15}{mult(be_x)}")
-    w(f"model BREAKEVEN @ {pct(100):<15}{mult(full_x)}")
-    w(f"model TARGET    @ {pct(p['utilization_pct']):<15}{mult(tgt_x)}   ({pct(round(div))} above claim's top)")
+    w(f"rule of thumb                    {mult(lo)} to {mult(hi)} old hourly")
+    w(f"model BREAKEVEN @ {pct(100):<15}{mult(full_x)}   (rule's low end)")
+    w(f"model BREAKEVEN @ {pct(p['utilization_pct']):<15}{mult(be_x)}   ({realized(be_x, hi)} vs rule's top)")
+    w(f"model FLOOR     @ {pct(p['utilization_pct']):<15}{mult(floor_x)}   ({realized(floor_x, hi)} vs rule's top)")
     w("```")
-    if div > 25:
-        w(f"**FLAG (>{pct(25)} divergence).** The claim holds only near full utilization; "
-          "it understates what a solo contractor with unbilled admin time and self-funded family health "
-          "needs. Use this model, not the rule of thumb.")
+    w(f"Divergence on like-for-like (BREAKEVEN) is {pct(round(abs(div), 1))}: "
+      f"{'within' if abs(div) <= 25 else 'OUTSIDE'} the {pct(25)} tolerance. "
+      "Read: the rule of thumb tracks breakeven, not a rate to quote. Charging inside it leaves no risk margin.")
     w("")
 
     w("## 8. CHECK")
@@ -445,6 +454,9 @@ def build_report(p, checks):
     w("other W-2 wages in the same year       shrink the SE wage-base room -> lowers SE tax")
     w("individual vs group health premium     individual market can cost more than the group premium -> raises it")
     w("payment terms, late payment            raise it via risk margin")
+    w("pre-tax (Section 125) health premiums  old W-2 FICA was slightly lower -> lowers it slightly")
+    w("S-corp election                        can cut SE tax via salary + distributions; adds payroll cost")
+    w("solo 401(k) contributions              tax deferral; does not change the cash equation")
     w("```")
     w("Not tax advice. Confirm with a CPA before quoting.")
     w("")
@@ -471,8 +483,12 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--set", action="append", default=[], metavar="KEY=VALUE",
                     help="override a parameter; repeatable; tuples comma-separated")
-    ap.add_argument("--out", default=str(Path(__file__).with_name("02_rate_model_output.md")))
+    ap.add_argument("--out", help="default: 02_rate_model_output.md, or private/rate_model_real.md "
+                                  "when any --set is given")
     args = ap.parse_args()
+    here = Path(__file__).resolve().parent
+    out = Path(args.out or ("private/rate_model_real.md" if args.set else "02_rate_model_output.md"))
+    args.out = str(out if out.is_absolute() else here / out)
     p = parse_set(args.set, PARAMS)
     for item in args.set:
         SOURCES[item.partition("=")[0]] = "given via --set"
